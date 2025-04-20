@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 
 interface PlaylistStore {
   playlists: Playlist[];
+  setPlaylists: (playlists: Playlist[]) => void;
   getPlaylist: (id: string) => Playlist | undefined;
   addPlaylist: (title: string, videos?: Video[]) => string;
   updatePlaylist: (id: string, updates: Partial<Omit<Playlist, 'id'>>) => void;
@@ -21,6 +22,10 @@ const usePlaylistStore = create<PlaylistStore>()(
     (set, get) => ({
       playlists: [],
       cachedVideos: {},
+
+      setPlaylists: (playlists) => {
+        set({ playlists });
+      },
 
       getPlaylist: (id) => {
         return get().playlists.find(playlist => playlist.id === id);
